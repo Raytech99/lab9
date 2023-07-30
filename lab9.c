@@ -26,16 +26,18 @@ struct HashType
 
 
 // Compute the hash function
-int hash(int x, char name, int hashSz, int att)
+
+int hash(int x, char name, int hashSz)
 {
     int hashVal = 0;
     int nameVal = name; // Convert char to int
 
     // Combine the ID and name to generate the hash value
-    hashVal = (x + nameVal + att) % hashSz;
+    hashVal = (x + nameVal) % hashSz;
 
     return hashVal;
 }
+
 
 
 void insert(struct Node** head, struct RecordType record)
@@ -149,14 +151,8 @@ int main(void)
 	
 	for(int i = 0; i < recordSz; ++i)
     {
-        int att = 0;
-        int index = hash(pRecords[i].id, pRecords[i].name, hashSz, att);
-
-        while(hashTable[index].head != NULL)
-        {
-            att++;
-            index = hash(pRecords[i].id, pRecords[i].name, hashSz, att);
-        }
+        //int att = 0;
+        int index = hash(pRecords[i].id, pRecords[i].name, hashSz);
 
         insert(&(hashTable[index].head), pRecords[i]);
     }
